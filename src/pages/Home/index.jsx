@@ -3,7 +3,6 @@ import L from 'leaflet'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 import './home.css'
 import Header from '../../components/Header'
-import Sidebar from '../../components/Sidebar'
 
 export default function Home() {
 
@@ -20,8 +19,7 @@ export default function Home() {
 
     return (
 
-        <div className="App">
-            <Sidebar/>
+        <div>
             <Header/>
             <MapContainer className='map' center={mapCenter} zoom={13}>
                 <TileLayer
