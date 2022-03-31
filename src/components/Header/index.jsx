@@ -2,6 +2,7 @@ import react, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import './header.css'
+import { isValidInputTimeValue } from '@testing-library/user-event/dist/utils'
 
 
 export default function Header() {
@@ -9,7 +10,7 @@ export default function Header() {
     const MenuItems = [
         {
             title: 'Cadastrar localização',
-            url: '#',
+            url: '/marcadores',
             cName: 'nav-links',
         },
         {
@@ -33,16 +34,14 @@ export default function Header() {
 
     return (
         <nav className="nav">
-            <h1 className="navbar-logo">
-                Turtle
-            </h1>
+            <Link className='navbar-logo' to='/'>Turtle</Link>
             <div className="menu-icon" onClick={handleclick}>
               {clicked ? <FaTimes className='nav-icon'/> : <FaBars className='nav-icon'/> } 
             </div>
             <ul className={clicked ? 'nav-menu active' : 'nav-menu'}>
                 {MenuItems.map((item, index) => {
                     return (
-                        <li key={index}><Link className={item.cName} to="">{item.title}</Link></li>
+                        <li key={index}><Link className={item.cName} to={item.url}>{item.title}</Link></li>
                     )
                 })}
             </ul>
