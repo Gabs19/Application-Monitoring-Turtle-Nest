@@ -1,16 +1,17 @@
 import react, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaBars, FaTimes } from 'react-icons/fa'
+import {GiTurtle} from 'react-icons/gi'
 import './header.css'
-import { isValidInputTimeValue } from '@testing-library/user-event/dist/utils'
+
 
 
 export default function Header() {
 
     const MenuItems = [
         {
-            title: 'Cadastrar localização',
-            url: '/marcadores',
+            title: 'Cadastrar Ninhos',
+            url: '/ninhos',
             cName: 'nav-links',
         },
         {
@@ -34,7 +35,13 @@ export default function Header() {
 
     return (
         <nav className="nav">
-            <Link className='navbar-logo' to='/'>Turtle</Link>
+            <Link className='navbar-logo' to='/'>
+                <div style={{display:'flex', alignItems:'center', alignContent:'space-between'}}>
+                    <GiTurtle size={40} />
+                    
+                    <h4>Tartarugas</h4>
+                </div>
+            </Link>
             <div className="menu-icon" onClick={handleclick}>
               {clicked ? <FaTimes className='nav-icon'/> : <FaBars className='nav-icon'/> } 
             </div>

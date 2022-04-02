@@ -4,7 +4,7 @@ import  Route  from './Route';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
-import Marker from '../pages/Marker';
+import NestLocations from '../pages/NestLocations';
 
 const Routes = () => {
     return (
@@ -12,7 +12,7 @@ const Routes = () => {
                 <Route exact path="/" component={Home}/>
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register}/>
-                <Route exact path="/marcadores" component={Marker}/>
+                <Route exact path="/ninhos" component={NestLocations}/>
             </Switch>
     )
 }
