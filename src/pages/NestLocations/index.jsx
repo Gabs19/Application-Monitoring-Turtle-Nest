@@ -1,4 +1,5 @@
 import React from 'react'
+import { useEffect } from 'react/cjs/react.production.min'
 import Header from '../../components/Header'
 import './nestLocations.css'
 
@@ -17,6 +18,13 @@ export default function NestLocations() {
     const [dataEclosão, setDataEclosão] = ('')
     const [localização, setLocalização] = ('')
 
+
+    async function handleRegisterNest(e) {
+        e.preventDefault()
+
+        
+    }
+
     return (
         <>
             <Header/>
@@ -24,7 +32,7 @@ export default function NestLocations() {
                 <div className="container-form">
                     <h2>Cadastrar Ninho</h2>
                     <hr />
-                    <form action="">
+                    <form onSubmit={handleRegisterNest()}>
                         <label>Digite o nome do local</label>
                         <input type="text" className="form-input" placeholder='Digite o nome do local' />
                         
@@ -60,7 +68,7 @@ export default function NestLocations() {
                             <option>Translocado</option>
                         </select>
 
-                        <button className='form-button'>Cadastrar Ninho</button>
+                        <button className='form-button' type='submit'>Cadastrar Ninho</button>
                     </form>
                 </div>
             </div>

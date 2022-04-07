@@ -21,6 +21,7 @@ body {
     justify-content: center;
     flex-direction: column;
     background-color: #fff;   
+    opacity: 85%;
     border-radius: 1rem;
     
 }
