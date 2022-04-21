@@ -10,9 +10,22 @@ body {
     display: flex;
     justify-content: center;
     align-items: center; 
-    
-    
+    flex-direction: column;
 }
+
+.options {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+ }
+
+ .radio-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+ }
 
 .container-form {
     width: 80%;
@@ -26,7 +39,7 @@ body {
     
 }
 
- h2{
+h2{
     text-align: start;
     margin: 10px;
     font-size: xx-large;
@@ -41,6 +54,7 @@ form {
     height: 50px;
     border-radius: 0.9em;
     text-align: start;
+    padding-left: 10px;
 
 }
 
@@ -56,13 +70,32 @@ form {
 }
 
 .format-label input {
-    width: 10em;
+    width: 30em;
 }
 
 
 .form-button {
     height: 50px;
     margin: 10px 50px;
+}
+
+@media only screen and (max-width: 1280px) {
+
+    .info-label {
+        font-size: smaller;
+    }
+
+
+    .format-label input {
+        width: 10em;
+    }
+
+    .options {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+     }
 }
 
 @media only screen and (max-width: 720px) {
@@ -74,6 +107,19 @@ form {
         background-size: auto;
     }
 
+    h2{
+        text-align: start;
+        margin: 10px;
+        font-size: medium;
+    }
+
+    .options {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        flex-direction: column;
+     }
+
     .label-by-qtd {
         display: flex;
         flex-direction: column;
@@ -84,9 +130,13 @@ form {
         width: 95%;
     }
     
+    .info-label {
+        font-size: smaller;
+    }
 
     .format-label{
         display: flex;
         flex-direction: column;
     }
+
  }
