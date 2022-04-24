@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import firebase from 'firebase'
 import { toast } from 'react-toastify'
+import useGeoLocation from '../../hooks/useGeoLocation'
 
 
 export default function NestLocations() {
@@ -13,11 +14,9 @@ export default function NestLocations() {
         'Tartaruga-de-pente (Eretmochelys imbricata)'
     ]
 
+    const location = useGeoLocation();
 
     const [nomeMarcador, setNomeMarcador] = useState('')
-    const [latitude, setLatitude] = useState('')
-    const [longitude, setLongitude] = useState('')
-
     const [especie, setEspecie] = useState('')
     const [qtdOvosEclodidos, setQtdOvosEclodidos] = useState('')
     const [qtdOvosNEclodidos, setQtdOvosNEclodidos] = useState('')
@@ -25,6 +24,7 @@ export default function NestLocations() {
     const [dataEclosao, setDataEclosao] = useState('')
     const [localizacao, setLocalizacao] = useState('')
 
+    
 
     async function handleRegisterNest(e) {
         e.preventDefault()
@@ -53,8 +53,8 @@ export default function NestLocations() {
 
             await firebase.firestore().collection('ninhos-localizações').add({
                 'nomeMarcador': nomeMarcador,
-                'latitude': latitude,
-                'longitude': longitude,
+                'latitude': location.coordinates.lat,
+                'longitude': location.coordinates.lng,
                 'especie': especie,
                 'qtdOvosEclodidos': qtdOvosEclodidos,
                 'qtdOvosNEclodidos': qtdOvosNEclodidos,
@@ -66,8 +66,6 @@ export default function NestLocations() {
                 toast.success('Ninho cadastrado com sucesso!')
 
                 setNomeMarcador('')
-                setLatitude('')
-                setLongitude('')
                 setEspecie('')
                 setQtdOvosEclodidos('')
                 setQtdOvosNEclodidos('')

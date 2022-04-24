@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import firebase from 'firebase'
 import { toast } from 'react-toastify'
+import useGeoLocation from '../../hooks/useGeoLocation';
 
 
 export default function NonReproduct() {
@@ -13,6 +14,7 @@ export default function NonReproduct() {
         'Tartaruga-de-pente (Eretmochelys imbricata)'
     ]
 
+    const location = useGeoLocation();
 
     const [nomeMarcador, setNomeMarcador] = useState('')
     const [marcasVisiveis, setMarcasVisiveis] = useState('')
@@ -39,8 +41,8 @@ export default function NonReproduct() {
 
             await firebase.firestore().collection('não-reprodutivo-localizações').add({
                 'nomeMarcador': nomeMarcador,
-                'latitude': latitude,
-                'longitude': longitude,
+                'latitude': location.coordinates.lat,
+                'longitude': location.coordinates.lng,
                 'especie': especie,
                 'marcasVisiveis' : marcasVisiveis,
                 'provavelCausa' : causaProvavel
