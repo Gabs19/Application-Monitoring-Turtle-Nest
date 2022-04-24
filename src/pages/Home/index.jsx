@@ -29,9 +29,9 @@ export default function Home() {
                     ...doc.data(),
                     key: doc.id
                 })
-                setPosition(getMarkersFromFirebase)
-                setLoading(false)
             })
+            setPosition(getMarkersFromFirebase)
+            setLoading(false)
         })
 
 
@@ -39,6 +39,7 @@ export default function Home() {
     }, [])
 
     const [mapCenter, setMapCenter] = useState([-7.896271748194248, -34.82384916467302])
+    console.log(position)
 
     return (
 
@@ -49,20 +50,18 @@ export default function Home() {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                {position.map((item, key) => {
-                    var dateFormatted = new Date(item.dataEclosão)
-                    return (
-                        <Marker key={key} position={[item.latitude, item.longitude]} icon={icon}>
-                            <Popup>
-                               <h3>{item.nomeMarcador}</h3>
-                               <hr />
-                               <h4>{item.especie}</h4>
-                               <h4>{dateFormatted.toLocaleString("pt-BR")}</h4>
-                            </Popup>
-                        </Marker>
-                    )
-                })
+                {position.map((item, index) => (
+                    <Marker key={index} position={[item.latitude, item.longitude]} icon={icon}>
+                        <Popup>
+                            <h3>{item.nomeMarcador}</h3>
+                            <hr />
+                            <h4>{item.especie}</h4>
+                            <h4>{new Date(item.dataEclosão).toLocaleString("pt-BR")}</h4>
+                        </Popup>
+                    </Marker>
+                ))
                 }
+
             </MapContainer>
         </div>
 
