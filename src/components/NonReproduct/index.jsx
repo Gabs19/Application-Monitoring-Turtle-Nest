@@ -19,9 +19,8 @@ export default function NonReproduct() {
     const [nomeMarcador, setNomeMarcador] = useState('')
     const [marcasVisiveis, setMarcasVisiveis] = useState('')
     const [causaProvavel, setCausaProvavel] = useState('')
-    const [latitude, setLatitude] = useState('')
-    const [longitude, setLongitude] = useState('')
     const [especie, setEspecie] = useState('')
+    const [data, setData] = useState('')
 
 
     async function handleRegisterNest(e) {
@@ -39,24 +38,25 @@ export default function NonReproduct() {
         }
         else {
 
-            await firebase.firestore().collection('não-reprodutivo-localizações').add({
+            await firebase.firestore().collection('ninhos-localizações').add({
                 'nomeMarcador': nomeMarcador,
                 'latitude': location.coordinates.lat,
                 'longitude': location.coordinates.lng,
                 'especie': especie,
+                'data' : data,
                 'marcasVisiveis' : marcasVisiveis,
-                'provavelCausa' : causaProvavel
+                'provavelCausa' : causaProvavel,
+                'tipo' : 'não-reprodutivo'
 
             }).then(() => {
 
                 toast.success('Informações cadastrada com sucesso!')
 
                 setNomeMarcador('')
-                setLatitude('')
-                setLongitude('')
                 setEspecie('')
                 setCausaProvavel('')
                 setMarcasVisiveis('')
+                setData('')
             }).catch((e) => {
                 console.log('========')
                 console.log(e)
@@ -76,6 +76,9 @@ export default function NonReproduct() {
 
                 <label>Causas Provaveis</label>
                 <textarea className='form-input' cols="100" rows="100" value={causaProvavel} onChange={(e) => setCausaProvavel(e.target.value)} ></textarea>
+
+                <label className="info-label">Selecione a data</label>
+                <input type="datetime-local" className="form-input" placeholder='Data de Eclosão' value={data} onChange={(e) => setData(e.target.value)} />
 
                 <label>Selecione o tipo da especie</label>
                 <select className='form-input' onChange={(e) => setEspecie(e.target.value)}>

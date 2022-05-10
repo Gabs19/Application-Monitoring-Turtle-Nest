@@ -60,7 +60,8 @@ export default function NestLocations() {
                 'qtdOvosNEclodidos': qtdOvosNEclodidos,
                 'natimorto': natimorto,
                 'dataEclosão': dataEclosao,
-                'localizacao': localizacao
+                'localizacao': localizacao,
+                'tipo' : 'reprodutivo'
             }).then(() => {
 
                 toast.success('Ninho cadastrado com sucesso!')
