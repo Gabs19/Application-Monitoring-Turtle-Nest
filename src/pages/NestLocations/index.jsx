@@ -20,13 +20,17 @@ export default function NestLocations() {
 
                     <div className='options'>
                         <div className='radio-label'>
-                            <input type="radio" id='ninhos' name="ninhos" value='ninhos' onChange={(e) => setOption(e.target.value)} style={{ marginRight: '10px' }} defaultChecked/>
-                            <label style={{ marginRight: '10px' }}>Ninhos de Tartarugas</label>
+                            <label style={{ marginRight: '10px' }}>
+                                <input type="radio" id='ninhos' name="ninhos" value='ninhos' onChange={(e) => setOption(e.target.value)} style={{ marginRight: '5px' }} defaultChecked/>
+                                Ninhos de Tartarugas
+                            </label>
                         </div>
 
                         <div className='radio-label'>
-                            <input type="radio" name='ninhos' value='nReprodutivos' onChange={(e) => setOption(e.target.value)} style={{ marginRight: '10px' }} />
-                            <label >Não Reprodutivos</label>
+                            <label >
+                                <input type="radio" name='ninhos' value='nReprodutivos' onChange={(e) => setOption(e.target.value)} style={{ marginRight: '5px' }} />
+                                Não Reprodutivos
+                            </label>
                         </div>
                     </div>
                    {option === 'nReprodutivos' ? <NonReproduct/> : <NestForm />}

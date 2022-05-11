@@ -23,32 +23,30 @@ export default function NestLocations() {
     const [natimorto, setNatimorto] = useState('')
     const [dataEclosao, setDataEclosao] = useState('')
     const [localizacao, setLocalizacao] = useState('')
+    const [dataDesova, setDesova] = useState('')
+    const [obs, setObs] = useState('')
+    const [equipe, setEquipe] = useState('')
 
-    
+    const [totalOvos, setTotalOvos] = useState(0)
 
     async function handleRegisterNest(e) {
+        
         e.preventDefault()
 
-        if (nomeMarcador === '') {
+        if((location.coordinates.lat === null || location.coordinates.lat === '') && (location.coordinates.log === null || location.coordinates.log === '')) {
+            toast.warning('Permita que o aplicativo acesse sua localização.')
+        }
+        else if (nomeMarcador === '') {
             toast.warning('digite o nome do local')
+        }
+        else if (equipe === ''){
+            toast.warning('digite os nomes da equipe')
+        }
+        else if (dataDesova === '') {
+            toast.warning('digite a data da desova')
         }
         else if (especie === '') {
             toast.warning('selecione a especie')
-        }
-        else if (qtdOvosEclodidos === '') {
-            toast.warning('digite a quantidade de ovos eclodidos')
-        }
-        else if (qtdOvosNEclodidos === '') {
-            toast.warning('digite a quantidade de ovos não eclodidos')
-        }
-        else if (natimorto === '') {
-            toast.warning('digite a quantidade de natimortos')
-        }
-        else if (dataEclosao === '') {
-            toast.warning('digite a data de eclosão')
-        }
-        else if (localizacao === '') {
-            toast.warning('selecione o tipo de localização')
         } else {
 
             await firebase.firestore().collection('ninhos-localizações').add({
@@ -56,11 +54,15 @@ export default function NestLocations() {
                 'latitude': location.coordinates.lat,
                 'longitude': location.coordinates.lng,
                 'especie': especie,
+                'equipe': equipe,
                 'qtdOvosEclodidos': qtdOvosEclodidos,
                 'qtdOvosNEclodidos': qtdOvosNEclodidos,
                 'natimorto': natimorto,
                 'dataEclosão': dataEclosao,
                 'localizacao': localizacao,
+                'desova' : dataDesova,
+                'TotalOvos' : totalOvos,
+                'obs' : obs,
                 'tipo' : 'reprodutivo'
             }).then(() => {
 
@@ -73,11 +75,23 @@ export default function NestLocations() {
                 setNatimorto('')
                 setDataEclosao('')
                 setLocalizacao('')
+                setObs('')
+                setDesova('')
+                setEquipe('')
+                
             }).catch((e) => {
                 console.log('========')
                 console.log(e)
             })
         }
+    }
+
+    function somaOvos()  {
+        var qtdnatimorto = natimorto === '' ? 0 : parseInt(natimorto)
+        var qtdeclodidos = qtdOvosEclodidos === '' ? 0 : parseInt(qtdOvosEclodidos)
+        var qtdnEclodidos = qtdOvosNEclodidos === '' ? 0 : parseInt(qtdOvosNEclodidos)
+
+        setTotalOvos(qtdnatimorto + qtdeclodidos + qtdnEclodidos)
     }
 
     return (
@@ -86,6 +100,9 @@ export default function NestLocations() {
             <form onSubmit={handleRegisterNest}>
                 <label>Digite o nome do local</label>
                 <input type="text" className="form-input" placeholder='Digite o nome do local' value={nomeMarcador} onChange={(e) => setNomeMarcador(e.target.value)} />
+
+                <label className="info-label">Data da Desova</label>
+                <input type="datetime-local" className="form-input" placeholder='Data de Desova' value={dataDesova} onChange={(e) => setDesova(e.target.value)} />
 
                 <label>Selecione o tipo da especie</label>
                 <select className='form-input' onChange={(e) => setEspecie(e.target.value)}>
@@ -96,23 +113,11 @@ export default function NestLocations() {
                         );
                     })}
                 </select>
+                
+                <label className="info-label">Equipe</label>
+                <input type="text" className="form-input" placeholder='Digite o nome do local' value={equipe} onChange={(e) => setEquipe(e.target.value)} />
 
-                <div className='label-by-qtd'>
-                    <div className='format-label'>
-                        <label>Quantidade de ovos Eclodidos</label>
-                        <input type="number" className="form-input number" placeholder='Quantidade de ovos Eclodidos' value={qtdOvosEclodidos} onChange={(e) => setQtdOvosEclodidos(e.target.value)} />
-                    </div>
-
-                    <div className='format-label'>
-                        <label className="info-label">Quantidade de ovos não Eclodidos</label>
-                        <input type="number" className="form-input number" placeholder='Quantidade de ovos não eclodidos' value={qtdOvosNEclodidos} onChange={(e) => setQtdOvosNEclodidos(e.target.value)} />
-                    </div>
-
-                    <div className='format-label'>
-                        <label className="info-label">Quantidade de Natimortos</label>
-                        <input type="number" className="form-input number" placeholder='Quantidade de natimortos' value={natimorto} onChange={(e) => setNatimorto(e.target.value)} />
-                    </div>
-                </div>
+                <br /> <hr /> <br />
 
                 <label className="info-label">Data da Eclosão</label>
                 <input type="datetime-local" className="form-input" placeholder='Data de Eclosão' value={dataEclosao} onChange={(e) => setDataEclosao(e.target.value)} />
@@ -123,6 +128,31 @@ export default function NestLocations() {
                     <option>In Situ</option>
                     <option>Translocado</option>
                 </select>
+
+                <div className='label-by-qtd'>
+                    <div className='format-label'>
+                        <label>Quantidade de ovos Eclodidos</label>
+                        <input type="number" className="form-input number" placeholder='Quantidade de ovos Eclodidos' value={qtdOvosEclodidos} onChange={(e) => setQtdOvosEclodidos(e.target.value)} onBlur={somaOvos} />
+                    </div>
+
+                    <div className='format-label'>
+                        <label className="info-label">Quantidade de ovos não Eclodidos</label>
+                        <input type="number" className="form-input number" placeholder='Quantidade de ovos não eclodidos' value={qtdOvosNEclodidos} onChange={(e) => setQtdOvosNEclodidos(e.target.value)} onBlur={somaOvos} />
+                    </div>
+
+                    <div className='format-label'>
+                        <label className="info-label">Quantidade de Natimortos</label>
+                        <input type="number" className="form-input number" placeholder='Quantidade de natimortos' value={natimorto} onChange={(e) => setNatimorto(e.target.value)} onBlur={somaOvos} />
+                    </div>
+
+                    <div className='format-label'>
+                        <label htmlFor="info-label">Total de ovos</label>
+                        <input type="number" className="form-input number" value={totalOvos} disabled />
+                    </div>
+                </div>
+
+                <label>Observações</label>
+                <textarea className='form-input' cols="100" rows="100" value={obs} onChange={(e) => setObs(e.target.value)}></textarea>
 
                 <button className='form-button' type='submit'>Salvar</button>
             </form>
