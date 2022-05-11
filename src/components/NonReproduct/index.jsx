@@ -21,6 +21,7 @@ export default function NonReproduct() {
     const [causaProvavel, setCausaProvavel] = useState('')
     const [especie, setEspecie] = useState('')
     const [data, setData] = useState('')
+    const [ocorrencia, setOcorrencia] = useState('')
 
 
     async function handleRegisterNest(e) {
@@ -46,7 +47,8 @@ export default function NonReproduct() {
                 'data' : data,
                 'marcasVisiveis' : marcasVisiveis,
                 'provavelCausa' : causaProvavel,
-                'tipo' : 'não-reprodutivo'
+                'tipo' : 'não-reprodutivo',
+                'ocorrencia' : ocorrencia
 
             }).then(() => {
 
@@ -71,12 +73,19 @@ export default function NonReproduct() {
                 <label>Digite o nome do local</label>
                 <input type="text" className="form-input" placeholder='Digite o nome do local' value={nomeMarcador} onChange={(e) => setNomeMarcador(e.target.value)} />
 
+                <label className="info-label">Ocorrencias</label>
+                <select className='form-input' onChange={(e) => setOcorrencia(e.target.value)}>
+                    <option selected>Escolha uma ocorrencia</option>
+                    <option value="Encalhe">Encalhe</option>
+                    <option value="morte">Morte</option>
+                </select>   
+
                 <label>Marcas Visiveis</label>
                 <textarea className='form-input' cols="100" rows="100" value={marcasVisiveis} onChange={(e) => setMarcasVisiveis(e.target.value)}></textarea>
 
                 <label>Causas Provaveis</label>
                 <textarea className='form-input' cols="100" rows="100" value={causaProvavel} onChange={(e) => setCausaProvavel(e.target.value)} ></textarea>
-
+            
                 <label className="info-label">Selecione a data</label>
                 <input type="datetime-local" className="form-input" placeholder='Data de Eclosão' value={data} onChange={(e) => setData(e.target.value)} />
 
