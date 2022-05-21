@@ -1,7 +1,7 @@
 /* eslint-disable no-const-assign */
 import React, { useState } from 'react'
 import Header from '../../components/Header'
-import './nestLocations.css'
+import '../../components/css-form/nestLocations.css'
 import NestForm from '../../components/NestForm';
 import NonReproduct from '../../components/NonReproduct';
 

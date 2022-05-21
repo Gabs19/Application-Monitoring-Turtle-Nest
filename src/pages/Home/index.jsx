@@ -24,20 +24,23 @@ export default function Home() {
     
     
     useEffect(() => {
-        const getMarkersFromFirebase = []
-        const marker = firebase.firestore().collection('ninhos-localizações').onSnapshot((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                getMarkersFromFirebase.push({
-                    ...doc.data(),
-                    key: doc.id
-                })
-            })
-            setPosition(getMarkersFromFirebase)
-            setLoading(false)
-        })
 
-        return () => marker()
-        
+        async function marker() {
+
+            const getMarkersFromFirebase = []
+            let markers = await firebase.firestore().collection('ninhos-localizações').onSnapshot(querySnapshot => {
+                querySnapshot.forEach((doc) => {
+                    getMarkersFromFirebase.push({
+                        ...doc.data(),
+                        key: doc.id
+                    })
+                })
+                setPosition(getMarkersFromFirebase)
+                setLoading(false)
+            })
+        }
+
+        marker()
         
     }, [])
 
@@ -59,9 +62,10 @@ export default function Home() {
                             <Popup>
                                 <h3>{item.nomeMarcador}</h3>
                                 <hr />
+                                <h3>Monitoramento : {item.tipo}</h3>
                                 <h4>{item.especie}</h4>
-                                <h4>{new Date(item.dataEclosão).toLocaleString("pt-BR")}</h4>
-                                <Link to={`/detalhes-ninho/${item.key}`}>Ver mais</Link>
+                                <h4>{item.tipo === 'reprodutivo' ? new Date(item.desova).toLocaleString("pt-BR") : new Date(item.data).toLocaleString("pt-BR")}</h4>
+                                <Link to={item.tipo === 'reprodutivo' ? `/detalhes-ninho/${item.key}` : `/detalhes-non-reprodutivo/${item.key}` }>Ver mais</Link>
                             </Popup>
                         </Marker>
                     ))

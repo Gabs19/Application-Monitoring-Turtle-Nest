@@ -6,6 +6,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import NestLocations from '../pages/NestLocations';
 import Details from '../pages/Details';
+import DetailsNonRepro from '../pages/DetailsNonRepro';
 
 const Routes = () => {
     return (
@@ -15,6 +16,7 @@ const Routes = () => {
                 <Route exact path="/register" component={Register}/>
                 <Route exact path="/ninhos" component={NestLocations}/>
                 <Route exact path="/detalhes-ninho/:id" component={Details}/>
+                <Route exact path="/detalhes-non-reprodutivo/:id" component={DetailsNonRepro}/>
             </Switch>
     )
 }

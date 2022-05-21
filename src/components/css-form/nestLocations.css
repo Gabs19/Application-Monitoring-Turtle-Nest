@@ -58,18 +58,32 @@ form {
 
 }
 
+.form-input-non {
+    margin: 10px;
+    height: 50px;
+    border-radius: 0.9em;
+    text-align: start;
+    padding-left: 10px;
+
+}
+
 .label-by-qtd {
+    padding-top: 5px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.format-label{
+.format-label, .format-label-non{
     display: flex;
     flex-direction: column;
 }
 
 .format-label input {
+    width: 20em;
+}
+
+.format-label-non input {
     width: 20em;
 }
 
@@ -88,6 +102,10 @@ form {
 
     .format-label input {
         width: 10em;
+    }
+
+    .format-label-non input {
+        width: 20em;
     }
 
     .options {
@@ -126,7 +144,7 @@ form {
         
     }
 
-    .format-label input {
+    .format-label, .format-label-non input {
         width: 95%;
     }
     
