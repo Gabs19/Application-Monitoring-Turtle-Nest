@@ -10,6 +10,20 @@ export default function RouteWrapper({
 
     const {signed, loading} = useContext(AuthContext);
 
+    if(loading) {
+        return(
+            <div></div>
+        );
+    }
+
+    if(!signed && isPrivate) {
+        return <Redirect to="/" />
+    }
+
+    if(signed && !isPrivate) {
+        return <Redirect to='/home'/>
+    }
+
     return(
         <Route 
             {...rest}

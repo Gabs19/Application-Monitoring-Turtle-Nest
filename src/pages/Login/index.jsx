@@ -1,6 +1,8 @@
 import { useState, useContext } from 'react';
+import { Redirect } from 'react-router-dom';
 import { Link } from "react-router-dom"
 import { AuthContext } from '../../context/auth';
+import RouteWrapper from '../../routes/Route';
 import './login.css'
 
 export default function Login() {
@@ -25,8 +27,6 @@ export default function Login() {
                     <input type="password" placeholder="*******" value={password} onChange={(e) => setPassword(e.target.value)} required/>
                     <button type="submit">{loadingAuth ? 'Carregando . . .' : 'Acessar'}</button>
                 </form>
-
-                <Link to="/register">Criar um Usuario</Link>
             </div>
         </div>
     )
