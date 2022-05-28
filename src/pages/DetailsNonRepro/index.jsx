@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Header from "../../components/Header";
 import firebase from "firebase";
 import '../../components/css-form/nestLocations.css'
 import { toast } from 'react-toastify'
 import { useParams } from "react-router-dom";
+import { AuthContext } from '../../context/auth'
 
 export default function DetailsNonRepro() {
 
@@ -16,6 +17,8 @@ export default function DetailsNonRepro() {
     ]
 
     const { id } = useParams();
+
+    const { user } = useContext(AuthContext);
 
     const [nomeMarcador, setNomeMarcador] = useState('')
     const [marcasVisiveis, setMarcasVisiveis] = useState('')
@@ -55,6 +58,8 @@ export default function DetailsNonRepro() {
         handleProduct()
     }, [])
 
+    const disabled = user !== null ? false : true
+
     async function handleUpdate(e) {
 
         e.preventDefault()
@@ -81,10 +86,10 @@ export default function DetailsNonRepro() {
                 <div className="container-form">
                     <form onSubmit={handleUpdate} >
                         <label>Digite o nome do local</label>
-                        <input type="text" className="form-input" placeholder='Digite o nome do local' value={nomeMarcador} onChange={(e) => setNomeMarcador(e.target.value)} />
+                        <input type="text" className="form-input" placeholder='Digite o nome do local' value={nomeMarcador} onChange={(e) => setNomeMarcador(e.target.value)}  disabled={disabled} />
 
                         <label>Selecione o tipo da especie</label>
-                        <select className='form-input' onChange={(e) => setEspecie(e.target.value)}>
+                        <select className='form-input' onChange={(e) => setEspecie(e.target.value)} disabled={disabled} >
                             <option selected>{especie !== '' ? especie : 'Escolha uma especie'}</option>
                             {tartarugas.map((item) => {
                                 return (
@@ -94,39 +99,39 @@ export default function DetailsNonRepro() {
                         </select>
 
                         <label className="info-label">Ocorrencias</label>
-                        <select className='form-input' onChange={(e) => setOcorrencia(e.target.value)}>
+                        <select className='form-input' onChange={(e) => setOcorrencia(e.target.value)} disabled={disabled} >
                             <option selected>{ocorrencia !== '' ? ocorrencia : 'Escolha uma ocorrencia'}</option>
                             <option value="Encalhe">Encalhe</option>
                             <option value="morte">Morte</option>
                         </select>
 
                         <label className="info-label">Selecione a data</label>
-                        <input type="datetime-local" className="form-input" placeholder='Data de Eclosão' value={data} onChange={(e) => setData(e.target.value)} />
+                        <input type="datetime-local" className="form-input" placeholder='Data de Eclosão' value={data} onChange={(e) => setData(e.target.value)} disabled={disabled} />
 
                         <br /> <hr /> <br />
 
                         <label>Marcas Visiveis</label>
-                        <textarea className='form-input' cols="100" rows="100" value={marcasVisiveis} onChange={(e) => setMarcasVisiveis(e.target.value)}></textarea>
+                        <textarea className='form-input' cols="100" rows="100" value={marcasVisiveis} onChange={(e) => setMarcasVisiveis(e.target.value)} disabled={disabled} ></textarea>
 
                         <label>Causas Provaveis</label>
-                        <textarea className='form-input' cols="100" rows="100" value={causaProvavel} onChange={(e) => setCausaProvavel(e.target.value)} ></textarea>
+                        <textarea className='form-input' cols="100" rows="100" value={causaProvavel} onChange={(e) => setCausaProvavel(e.target.value)} disabled={disabled} ></textarea>
 
                         <div className='label-by-qtd'>
                             <div className='format-label-non'>
                                 <label className="info-label">Comprimento do Casco</label>
-                                <input type="number" className="form-input number" placeholder='Comprimento do casco' value={comprimentoCasco} onChange={(e) => setComprimentoCasco(e.target.value)} />
+                                <input type="number" className="form-input number" placeholder='Comprimento do casco' value={comprimentoCasco} onChange={(e) => setComprimentoCasco(e.target.value)} disabled={disabled}  />
                             </div>
 
                             <div className='format-label-non'>
                                 <label className="info-label">Largura do Casco</label>
-                                <input type="number" className="form-input number" placeholder='Largura do casco' value={larguraCasco} onChange={(e) => setLarguraCasco(e.target.value)} />
+                                <input type="number" className="form-input number" placeholder='Largura do casco' value={larguraCasco} onChange={(e) => setLarguraCasco(e.target.value)} disabled={disabled} />
                             </div>
                         </div>
 
                         <label>Observações</label>
-                        <textarea className='form-input' cols="100" rows="100" value={obs} onChange={(e) => setObs(e.target.value)}></textarea>
+                        <textarea className='form-input' cols="100" rows="100" value={obs} onChange={(e) => setObs(e.target.value)} disabled={disabled} ></textarea>
 
-                        <button className='form-button' type='submit'>Salvar</button>
+                        {user == null ? '' : <button className='form-button' type='submit'>Salvar</button>}
                     </form>
                 </div>
             </div>

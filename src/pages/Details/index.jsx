@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Header from "../../components/Header";
 import '../../components/css-form/nestLocations.css'
 import firebase from "firebase";
 import { toast } from 'react-toastify'
 import { useParams } from "react-router-dom";
+import { AuthContext } from '../../context/auth'
 
 export default function Details() {
+
+
+    const { user } = useContext(AuthContext);
 
     var tartarugas = [
         'Tartaruga-verde (Chelonia mydas)',
@@ -88,6 +92,8 @@ export default function Details() {
         })
     }
 
+    const disabled = user !== null ? false : true
+
     return (
         <div>
             <Header />
@@ -95,13 +101,13 @@ export default function Details() {
                 <div className="container-form">
                     <form onSubmit={handleUpdate}>
                         <label>Digite o nome do local</label>
-                        <input type="text" className="form-input" placeholder='Digite o nome do local' value={nomeMarcador} onChange={(e) => setNomeMarcador(e.target.value)} />
+                        <input type="text" className="form-input" placeholder='Digite o nome do local' value={nomeMarcador} onChange={(e) => setNomeMarcador(e.target.value)} disabled={disabled} />
 
                         <label className="info-label">Data da Desova</label>
-                        <input type="datetime-local" className="form-input" placeholder='Data de Desova' value={dataDesova} onChange={(e) => setDesova(e.target.value)} />
+                        <input type="datetime-local" className="form-input" placeholder='Data de Desova' value={dataDesova} onChange={(e) => setDesova(e.target.value)} disabled={disabled} />
 
                         <label>Selecione o tipo da especie</label>
-                        <select className='form-input' onChange={(e) => setEspecie(e.target.value)}>
+                        <select className='form-input' onChange={(e) => setEspecie(e.target.value)} disabled={disabled}>
                             <option selected>{especie !== '' ? especie : 'Escolha uma especie'}</option>
                             {tartarugas.map((item) => {
                                 return (
@@ -111,15 +117,15 @@ export default function Details() {
                         </select>
 
                         <label className="info-label">Equipe</label>
-                        <input type="text" className="form-input" placeholder='Digite o nome do local' value={equipe} onChange={(e) => setEquipe(e.target.value)} />
+                        <input type="text" className="form-input" placeholder='Digite o nome do local' value={equipe} onChange={(e) => setEquipe(e.target.value)} disabled={disabled} />
 
                         <br /> <hr /> <br />
 
                         <label className="info-label">Data da Eclosão</label>
-                        <input type="datetime-local" className="form-input" placeholder='Data de Eclosão' value={dataEclosao} onChange={(e) => setDataEclosao(e.target.value)} />
+                        <input type="datetime-local" className="form-input" placeholder='Data de Eclosão' value={dataEclosao} onChange={(e) => setDataEclosao(e.target.value)} disabled={disabled} />
 
                         <label>Selecione a localização</label>
-                        <select className='form-input' onChange={(e) => setLocalizacao(e.target.value)}>
+                        <select className='form-input' onChange={(e) => setLocalizacao(e.target.value)} disabled={disabled}>
                             <option selected>{localizacao !== '' ? localizacao : 'Escolha um local'}</option>
                             <option>In Situ</option>
                             <option>Translocado</option>
@@ -128,17 +134,17 @@ export default function Details() {
                         <div className='label-by-qtd'>
                             <div className='format-label'>
                                 <label>Quantidade de ovos Eclodidos</label>
-                                <input type="number" className="form-input number" placeholder='Quantidade de ovos Eclodidos' value={qtdOvosEclodidos} onChange={(e) => setQtdOvosEclodidos(e.target.value)} onBlur={somaOvos} />
+                                <input type="number" className="form-input number" placeholder='Quantidade de ovos Eclodidos' value={qtdOvosEclodidos} onChange={(e) => setQtdOvosEclodidos(e.target.value)} onBlur={somaOvos} disabled={disabled} />
                             </div>
 
                             <div className='format-label'>
                                 <label className="info-label">Quantidade de ovos não Eclodidos</label>
-                                <input type="number" className="form-input number" placeholder='Quantidade de ovos não eclodidos' value={qtdOvosNEclodidos} onChange={(e) => setQtdOvosNEclodidos(e.target.value)} onBlur={somaOvos} />
+                                <input type="number" className="form-input number" placeholder='Quantidade de ovos não eclodidos' value={qtdOvosNEclodidos} onChange={(e) => setQtdOvosNEclodidos(e.target.value)} onBlur={somaOvos} disabled={disabled} />
                             </div>
 
                             <div className='format-label'>
                                 <label className="info-label">Quantidade de Natimortos</label>
-                                <input type="number" className="form-input number" placeholder='Quantidade de natimortos' value={natimorto} onChange={(e) => setNatimorto(e.target.value)} onBlur={somaOvos} />
+                                <input type="number" className="form-input number" placeholder='Quantidade de natimortos' value={natimorto} onChange={(e) => setNatimorto(e.target.value)} onBlur={somaOvos} disabled={disabled} />
                             </div>
 
                             <div className='format-label'>
@@ -148,9 +154,10 @@ export default function Details() {
                         </div>
 
                         <label>Observações</label>
-                        <textarea className='form-input' cols="100" rows="100" value={obs} onChange={(e) => setObs(e.target.value)}></textarea>
+                        <textarea className='form-input' cols="100" rows="100" value={obs} onChange={(e) => setObs(e.target.value)} disabled={disabled}></textarea>
 
-                        <button className='form-button' type='submit'>Salvar</button>
+                        {user == null ? '' : <button className='form-button' type='submit'>Salvar</button>}
+                        
                     </form>
                 </div>
             </div>

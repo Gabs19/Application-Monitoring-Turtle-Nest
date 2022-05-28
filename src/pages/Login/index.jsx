@@ -16,6 +16,8 @@ export default function Login() {
     function handleSubmit(e) {
         e.preventDefault();
         signIn(email,password);
+
+        <Redirect to='/home'/>
     } 
 
     return (
