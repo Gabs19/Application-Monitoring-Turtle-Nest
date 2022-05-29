@@ -1,4 +1,4 @@
-import react, { useState,useContext } from 'react'
+import { useState,useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import {GiTurtle} from 'react-icons/gi'

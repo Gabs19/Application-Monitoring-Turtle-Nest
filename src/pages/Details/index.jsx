@@ -58,7 +58,7 @@ export default function Details() {
         }
 
         handleProduct()
-    }, [])
+    }, [id])
 
     function somaOvos() {
         var qtdnatimorto = natimorto === '' ? 0 : parseInt(natimorto)
