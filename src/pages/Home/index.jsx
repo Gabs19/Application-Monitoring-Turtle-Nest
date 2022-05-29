@@ -7,6 +7,7 @@ import './home.css'
 import Header from '../../components/Header'
 import turtle from '../../assets/images/turtle 2.png'
 import { Link } from 'react-router-dom'
+import Login from '../../components/modal-login'
 
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
 
     const [loading, setLoading] = useState(true)
     const [position, setPosition] = useState([])
+    const [show, setShow] = useState(true)
     
     
     useEffect(() => {

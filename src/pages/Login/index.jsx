@@ -1,24 +1,26 @@
 import { useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Link } from "react-router-dom"
 import { AuthContext } from '../../context/auth';
-import RouteWrapper from '../../routes/Route';
-import './login.css'
+
+
 
 export default function Login() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const { signIn, loadingAuth } = useContext(AuthContext);
+    const { signIn, loadingAuth, user } = useContext(AuthContext);
 
 
     function handleSubmit(e) {
         e.preventDefault();
         signIn(email,password);
-
-        <Redirect to='/home'/>
+        
     } 
+
+    if(user !== null){
+        return <Redirect to='/'/>
+    }
 
     return (
         <div className="container-center">
