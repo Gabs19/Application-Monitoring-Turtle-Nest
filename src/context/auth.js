@@ -1,5 +1,4 @@
-import { createContext, useState, useEffect, Children } from "react";
-import { Redirect } from "react-router-dom";
+import { createContext, useState, useEffect} from "react";
 import firebase from "../services/firebaseConection";
 
 export const AuthContext = createContext();
