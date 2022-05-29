@@ -55,7 +55,7 @@ export default function DetailsNonRepro() {
         }
 
         handleProduct()
-    }, [])
+    }, [id])
 
     const disabled = user !== null ? false : true
 
