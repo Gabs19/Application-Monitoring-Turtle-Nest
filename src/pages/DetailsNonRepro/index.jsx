@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useContext } from "react";
 import Header from "../../components/Header";
 import firebase from "firebase";
@@ -33,6 +32,8 @@ export default function DetailsNonRepro() {
 
 
     useEffect(() => {
+
+        var date = new Date()
 
         async function handleProduct() {
             let markers = await firebase.firestore().collection('ninhos-localizações').doc(id)

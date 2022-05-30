@@ -1,12 +1,13 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import L from 'leaflet'
 import firebase from 'firebase'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
+import { GiTurtle } from 'react-icons/gi'
 import './home.css'
 import Header from '../../components/Header'
 import turtle from '../../assets/images/turtle 2.png'
 import { Link } from 'react-router-dom'
+import Login from '../../components/modal-login'
 
 
 export default function Home() {

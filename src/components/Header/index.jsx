@@ -1,11 +1,9 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState,useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import {GiTurtle} from 'react-icons/gi'
 import './header.css'
 import { AuthContext } from '../../context/auth'
-
 
 export default function Header() {
 
@@ -82,7 +80,7 @@ export default function Header() {
                             )
                         })
                 }
-                <li onClick={() => signOut()} style={{display: visibibleButton}}><a className="nav-links">Sair</a></li> 
+                <li onClick={() => signOut()} style={{display: visibibleButton}}><a className='nav-links'>Sair</a></li> 
             </ul>
         </nav>
     )
