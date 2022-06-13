@@ -26,6 +26,15 @@ export default function NonReproduct() {
     const [comprimentoCasco, setComprimentoCasco] = useState('')
     const [larguraCasco, setLarguraCasco] = useState('')
 
+    const [imageUpload, setImageUpload] = useState(null)
+
+    async function uploadImage() {
+        if (imageUpload == null || imageUpload === '') return;
+        console.log(imageUpload)
+        const upload = await firebase.storage().ref(`reprodutivos/${imageUpload.name}`);
+        upload.put(imageUpload)
+
+    };
 
     async function handleRegisterNest(e) {
         e.preventDefault()
@@ -69,6 +78,7 @@ export default function NonReproduct() {
                 setObs('')
                 setComprimentoCasco('')
                 setLarguraCasco('')
+                setImageUpload('')
 
             }).catch((e) => {
                 console.log('========')
@@ -79,7 +89,6 @@ export default function NonReproduct() {
 
     return (
         <>
-
             <form onSubmit={handleRegisterNest}>
                 <label>Digite o nome do local</label>
                 <input type="text" className="form-input" placeholder='Digite o nome do local' value={nomeMarcador} onChange={(e) => setNomeMarcador(e.target.value)} />
@@ -126,6 +135,9 @@ export default function NonReproduct() {
 
                 <label>Observações</label>
                 <textarea className='form-input' cols="100" rows="100" value={obs} onChange={(e) => setObs(e.target.value)}></textarea>
+
+                <label>Imagem</label>
+                <input className='form-input' type='file' onChange={(e) => {setImageUpload(e.target.files[0])}} />
 
                 <button className='form-button' type='submit'>Salvar</button>
             </form>

@@ -19,6 +19,7 @@ export default function Details() {
         'Tartaruga-de-pente (Eretmochelys imbricata)'
     ]
 
+    
     const { id } = useParams();
 
     const [nomeMarcador, setNomeMarcador] = useState('')
@@ -33,9 +34,8 @@ export default function Details() {
     const [equipe, setEquipe] = useState('')
 
     const [totalOvos, setTotalOvos] = useState(0)
-
+  
     useEffect(() => {
-
 
         async function handleProduct() {
             let markers = await firebase.firestore().collection('ninhos-localizações').doc(id)
@@ -69,27 +69,47 @@ export default function Details() {
     }
 
     async function handleUpdate(e) {
+        e.preventDefault();
 
-        e.preventDefault()
+        let validate = window.confirm('Você tem certeza desde dados inseridos?');
+        
+        if(validate){     
+            await firebase.firestore().collection('ninhos-localizações').doc(id).update({
+                'nomeMarcador': nomeMarcador,
+                'especie': especie,
+                'equipe': equipe,
+                'qtdOvosEclodidos': qtdOvosEclodidos,
+                'qtdOvosNEclodidos': qtdOvosNEclodidos,
+                'natimorto': natimorto,
+                'dataEclosão': dataEclosao,
+                'localizacao': localizacao,
+                'desova': dataDesova,
+                'TotalOvos': totalOvos,
+                'obs': obs,
+    
+            }).then(() => {
+                toast.success('Informações atualizadas com sucesso!')
+               
+                updateMonitor()
+            }).error(()=>{
+                toast.error('erro ao atualizar!')        
+            });
+        }
 
-        await firebase.firestore().collection('ninhos-localizações').doc(id).update({
-            'nomeMarcador': nomeMarcador,
-            'especie': especie,
-            'equipe': equipe,
-            'qtdOvosEclodidos': qtdOvosEclodidos,
-            'qtdOvosNEclodidos': qtdOvosNEclodidos,
-            'natimorto': natimorto,
-            'dataEclosão': dataEclosao,
-            'localizacao': localizacao,
-            'desova': dataDesova,
-            'TotalOvos': totalOvos,
-            'obs': obs,
+    }
 
-        }).then(() => {
-            toast.success('Informações atualizadas com sucesso!')
-        }).error(()=>{
-            toast.error('erro ao atualizar!')        
-        })
+    const [eclodidos, setEclodidos] = useState(0)
+    const [nEclodidos, setNEclodidos] = useState(0)
+
+    async function updateMonitor(){
+
+        let qtdeclodidos = parseInt(eclodidos) + parseInt(qtdOvosEclodidos)
+        let qtdNeclodidos = parseInt(nEclodidos) + parseInt(qtdOvosNEclodidos)
+
+        await firebase.firestore().collection('tartarugas').doc(especie.split(' ')[0]).update({
+            'eclodidos': qtdeclodidos,
+            'naoEclodidos' : qtdNeclodidos,
+        });
     }
 
     const disabled = user !== null ? false : true

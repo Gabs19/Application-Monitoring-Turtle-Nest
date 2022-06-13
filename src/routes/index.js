@@ -7,6 +7,7 @@ import Register from '../pages/Register';
 import NestLocations from '../pages/NestLocations';
 import Details from '../pages/Details';
 import DetailsNonRepro from '../pages/DetailsNonRepro';
+import Monitor from '../pages/TurtleMonitor';
 
 const Routes = () => {
     return (
@@ -18,6 +19,7 @@ const Routes = () => {
                 <Route exact path="/ninhos" component={NestLocations} isPrivate/>
                 <Route exact path="/detalhes-ninho/:id" component={Details} />
                 <Route exact path="/detalhes-non-reprodutivo/:id" component={DetailsNonRepro} />
+                <Route exact path="/tartarugometro" component={Monitor}/>
             </Switch>
     )
 }

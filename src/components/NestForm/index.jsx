@@ -3,7 +3,6 @@ import firebase from 'firebase'
 import { toast } from 'react-toastify'
 import useGeoLocation from '../../hooks/useGeoLocation'
 
-
 export default function NestLocations() {
 
     var tartarugas = [
@@ -29,6 +28,16 @@ export default function NestLocations() {
 
     const [totalOvos, setTotalOvos] = useState(0)
 
+    const [imageUpload, setImageUpload] = useState(null)
+
+    async function uploadImage() {
+        if (imageUpload == null || imageUpload === '') return;
+        console.log(imageUpload)
+        const upload = await firebase.storage().ref(`reprodutivos/${imageUpload.name}`);
+        upload.put(imageUpload)
+
+    };
+
     async function handleRegisterNest(e) {
         
         e.preventDefault()
@@ -48,7 +57,8 @@ export default function NestLocations() {
         else if (especie === '') {
             toast.warning('selecione a especie')
         } else {
-
+            uploadImage();
+            
             await firebase.firestore().collection('ninhos-localizações').add({
                 'nomeMarcador': nomeMarcador,
                 'latitude': location.coordinates.lat,
@@ -63,10 +73,12 @@ export default function NestLocations() {
                 'desova' : dataDesova,
                 'TotalOvos' : totalOvos,
                 'obs' : obs,
+                'imageName' : imageUpload.name,
                 'tipo' : 'reprodutivo'
             }).then(() => {
 
                 toast.success('Ninho cadastrado com sucesso!')
+                updateMonitor()
 
                 setNomeMarcador('')
                 setEspecie('')
@@ -78,12 +90,27 @@ export default function NestLocations() {
                 setObs('')
                 setDesova('')
                 setEquipe('')
+                setImageUpload('')
                 
             }).catch((e) => {
                 console.log('========')
                 console.log(e)
             })
         }
+    }
+
+    const [eclodidos, setEclodidos] = useState(0)
+    const [nEclodidos, setNEclodidos] = useState(0)
+
+    async function updateMonitor(){
+
+        let qtdeclodidos = parseInt(eclodidos) + parseInt(qtdOvosEclodidos)
+        let qtdNeclodidos = parseInt(nEclodidos) + parseInt(qtdOvosNEclodidos)
+
+        await firebase.firestore().collection('tartarugas').doc(especie.split(' ')[0]).update({
+            'eclodidos': qtdeclodidos,
+            'naoEclodidos' : qtdNeclodidos,
+        });
     }
 
     function somaOvos()  {
@@ -153,6 +180,9 @@ export default function NestLocations() {
 
                 <label>Observações</label>
                 <textarea className='form-input' cols="100" rows="100" value={obs} onChange={(e) => setObs(e.target.value)}></textarea>
+
+                <label>Imagem</label>
+                <input className='form-input' type='file' onChange={(e) => {setImageUpload(e.target.files[0])}} />
 
                 <button className='form-button' type='submit'>Salvar</button>
             </form>

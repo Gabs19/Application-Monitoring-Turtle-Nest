@@ -2,8 +2,6 @@ import { useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../../context/auth';
 
-
-
 export default function Login() {
 
     const [email, setEmail] = useState('');

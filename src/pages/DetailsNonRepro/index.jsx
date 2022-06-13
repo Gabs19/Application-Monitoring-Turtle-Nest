@@ -33,8 +33,6 @@ export default function DetailsNonRepro() {
 
     useEffect(() => {
 
-        var date = new Date()
-
         async function handleProduct() {
             let markers = await firebase.firestore().collection('ninhos-localizações').doc(id)
                 .onSnapshot(documentSnapshot => {
@@ -62,23 +60,30 @@ export default function DetailsNonRepro() {
 
     async function handleUpdate(e) {
 
-        e.preventDefault()
+        e.preventDefault();
 
-        await firebase.firestore().collection('ninhos-localizações').doc(id).update({
-            'nomeMarcador': nomeMarcador,
-            'especie': especie,
-            'data' : data,
-            'marcasVisiveis' : marcasVisiveis,
-            'provavelCausa' : causaProvavel,
-            'ocorrencia' : ocorrencia,
-            'obs' : obs,
-            'comprimentoCasco' : comprimentoCasco,
-            'larguraCasco' : larguraCasco
-        }).then(() => {
-            toast.success('Informações atualizadas com sucesso!')
-        })
+        let validate = window.confirm('Você tem certeza desde dados inseridos?');
+
+        if(validate) {
+
+            await firebase.firestore().collection('ninhos-localizações').doc(id).update({
+                'nomeMarcador': nomeMarcador,
+                'especie': especie,
+                'data' : data,
+                'marcasVisiveis' : marcasVisiveis,
+                'provavelCausa' : causaProvavel,
+                'ocorrencia' : ocorrencia,
+                'obs' : obs,
+                'comprimentoCasco' : comprimentoCasco,
+                'larguraCasco' : larguraCasco
+            }).then(() => {
+                toast.success('Informações atualizadas com sucesso!')
+            });
+        }
+
     }
 
+   
     return (
         <div>
             <Header />

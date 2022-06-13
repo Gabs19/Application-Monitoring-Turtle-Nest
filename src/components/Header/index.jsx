@@ -17,7 +17,7 @@ export default function Header() {
         },
         {
             title: 'Tartarugômetro',
-            url: '#',
+            url: '/tartarugometro',
             cName: 'nav-links',
         },
         {
@@ -30,7 +30,7 @@ export default function Header() {
     const onloggedMenuitems = [      
         {
             title: 'Tartarugômetro',
-            url: '#',
+            url: '/tartarugometro',
             cName: 'nav-links',
         },
         {
