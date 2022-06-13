@@ -2,7 +2,7 @@ import react,{ useEffect, useState } from "react";
 import firebase from "firebase";
 import Header from "../../components/Header";
 import './monitor.css';
-import Couro from '../../assets/images/turtles/Tartaruga_de_Couro.jpg'
+
 
 export default function MonitorScreen() {
 
