@@ -79,7 +79,6 @@ function AuthProvider({children}) {
 
             let data ={
                 uid: uid,
-                nome: userProfile.data().name
             }
 
             setUser(data);
@@ -89,6 +88,7 @@ function AuthProvider({children}) {
         })
         .catch((error) => {
             alert('Ops deu erro ')
+            console.log(error)
             setLoadingAuth(false);
         })
     }
