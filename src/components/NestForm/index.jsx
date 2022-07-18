@@ -73,7 +73,7 @@ export default function NestLocations() {
                 'desova' : dataDesova,
                 'TotalOvos' : totalOvos,
                 'obs' : obs,
-                'imageName' : imageUpload.name,
+                // 'imageName' : imageUpload.name,
                 'tipo' : 'reprodutivo'
             }).then(() => {
 

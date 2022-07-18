@@ -5,6 +5,10 @@ body {
     background-size: auto;
 }
 
+label {
+    font-weight: bold;
+}
+
 .container{
     padding: 50px;
     display: flex;

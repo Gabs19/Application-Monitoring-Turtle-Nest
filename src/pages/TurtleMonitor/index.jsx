@@ -2,12 +2,16 @@ import react,{ useEffect, useState } from "react";
 import firebase from "firebase";
 import Header from "../../components/Header";
 import './monitor.css';
+import Modal from "../../components/modal-tartarugometro";
 
 
 export default function MonitorScreen() {
 
-    const [turtles, setTurtles] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [turtles, setTurtles] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [id, setId] = useState('');
+
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
 
@@ -21,14 +25,20 @@ export default function MonitorScreen() {
                         key: doc.id
                     })
                 })
-                setTurtles(getTurtle)
-                setLoading(false)
+                setTurtles(getTurtle);
+                setLoading(false);
             })
         }
 
-        marker()
+        marker();
         
     }, [])
+
+    function info(index){
+        setModalOpen(true);
+        setId(index);
+
+    }
 
     return(
         <div>
@@ -41,7 +51,7 @@ export default function MonitorScreen() {
                             
                             
                             <div key={index} className="card">
-                                <img src={item.srcNome} alt={item.nome} />
+                                <img src={item.srcNome} alt={item.nome} onClick={() => info(index)} />
                                 <h3>{item.nome}</h3>
                                 <h5>{item.nomeCientifico}</h5>
                                 
@@ -53,7 +63,9 @@ export default function MonitorScreen() {
                         ))
                     }
                 </div>
-            </div>               
+
+                {modalOpen && <Modal setOpenModal={setModalOpen} id={id}/>}    
+            </div>              
         </div>
     )
 }
