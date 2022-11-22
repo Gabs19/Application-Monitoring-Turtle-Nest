@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import firebase from 'firebase'
 import { toast } from 'react-toastify'
 import useGeoLocation from '../../hooks/useGeoLocation';
+import registerfirestore from '../../utils/registerNonNestFirestore';
+import registerRealtime from '../../utils/registerNonNestRealtime';
 
 
 export default function NonReproduct() {
@@ -33,7 +35,6 @@ export default function NonReproduct() {
         console.log(imageUpload)
         const upload = await firebase.storage().ref(`reprodutivos/${imageUpload.name}`);
         upload.put(imageUpload)
-
     };
 
     async function handleRegisterNest(e) {
@@ -51,24 +52,12 @@ export default function NonReproduct() {
         }
         else {
 
-            await firebase.firestore().collection('ninhos-localizações').add({
-                'nomeMarcador': nomeMarcador,
-                'latitude': location.coordinates.lat,
-                'longitude': location.coordinates.lng,
-                'especie': especie,
-                'data' : new Date(data),
-                'marcasVisiveis' : marcasVisiveis,
-                'provavelCausa' : causaProvavel,
-                'tipo' : 'não-reprodutivo',
-                'ocorrencia' : ocorrencia,
-                'obs' : obs,
-                'comprimentoCasco' : comprimentoCasco,
-                'larguraCasco' : larguraCasco
-
-            }).then(() => {
-
-                toast.success('Informações cadastrada com sucesso!')
-
+            try {
+                registerfirestore(nomeMarcador,location,especie,data,marcasVisiveis,causaProvavel,ocorrencia,obs,comprimentoCasco,larguraCasco);
+                registerRealtime(nomeMarcador,location,especie,data,marcasVisiveis,causaProvavel,ocorrencia,obs,comprimentoCasco,larguraCasco);
+            } catch(e) {
+                console.log(e);
+            } finally {
                 setNomeMarcador('')
                 setEspecie('')
                 setCausaProvavel('')
@@ -79,11 +68,7 @@ export default function NonReproduct() {
                 setComprimentoCasco('')
                 setLarguraCasco('')
                 setImageUpload('')
-
-            }).catch((e) => {
-                console.log('========')
-                console.log(e)
-            })
+            }
         }
     }
 

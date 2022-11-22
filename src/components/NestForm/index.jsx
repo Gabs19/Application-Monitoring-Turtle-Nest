@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import firebase from 'firebase'
 import { toast } from 'react-toastify'
 import useGeoLocation from '../../hooks/useGeoLocation'
+import registerFirestore from '../../utils/registerNestFirestore';
+import registerRealtime from '../../utils/registerNestRealtime';
+import updateMonitor from '../../utils/updateMonitor';
 
 export default function NestLocations() {
 
@@ -30,6 +33,9 @@ export default function NestLocations() {
 
     const [imageUpload, setImageUpload] = useState(null)
 
+    const [eclodidos, setEclodidos] = useState(0)
+    const [nEclodidos, setNEclodidos] = useState(0)
+
     async function uploadImage() {
         if (imageUpload == null || imageUpload === '') return;
         console.log(imageUpload)
@@ -46,39 +52,28 @@ export default function NestLocations() {
             toast.warning('Permita que o aplicativo acesse sua localização.')
         }
         else if (nomeMarcador === '') {
-            toast.warning('digite o nome do local')
+            toast.warning('Digite o nome do local')
         }
         else if (equipe === ''){
-            toast.warning('digite os nomes da equipe')
+            toast.warning('Digite os nomes da equipe')
         }
         else if (dataDesova === '') {
-            toast.warning('digite a data da desova')
+            toast.warning('Digite a data da desova')
         }
         else if (especie === '') {
-            toast.warning('selecione a especie')
+            toast.warning('Selecione a especie')
         } else {
             uploadImage();
             
-            await firebase.firestore().collection('ninhos-localizações').add({
-                'nomeMarcador': nomeMarcador,
-                'latitude': location.coordinates.lat,
-                'longitude': location.coordinates.lng,
-                'especie': especie,
-                'equipe': equipe,
-                'qtdOvosEclodidos': qtdOvosEclodidos,
-                'qtdOvosNEclodidos': qtdOvosNEclodidos,
-                'natimorto': natimorto,
-                'dataEclosão': dataEclosao,
-                'localizacao': localizacao,
-                'desova' : dataDesova,
-                'TotalOvos' : totalOvos,
-                'obs' : obs,
-                // 'imageName' : imageUpload.name,
-                'tipo' : 'reprodutivo'
-            }).then(() => {
-
-                toast.success('Ninho cadastrado com sucesso!')
-                updateMonitor()
+            try {
+                registerFirestore(nomeMarcador,location,especie,equipe,qtdOvosEclodidos,qtdOvosNEclodidos,natimorto,dataEclosao,localizacao,dataDesova,totalOvos,obs);
+                registerRealtime(nomeMarcador,location,especie,equipe,qtdOvosEclodidos,qtdOvosNEclodidos,natimorto,dataEclosao,localizacao,dataDesova,totalOvos,obs);
+            }catch (e) {
+                console.log('========')
+                console.log(e)
+            } finally {
+                
+                updateMonitor(eclodidos , qtdOvosEclodidos, nEclodidos, qtdOvosNEclodidos,especie);
 
                 setNomeMarcador('')
                 setEspecie('')
@@ -91,32 +86,15 @@ export default function NestLocations() {
                 setDesova('')
                 setEquipe('')
                 setImageUpload('')
-                
-            }).catch((e) => {
-                console.log('========')
-                console.log(e)
-            })
+
+            }
         }
     }
 
-    const [eclodidos, setEclodidos] = useState(0)
-    const [nEclodidos, setNEclodidos] = useState(0)
-
-    async function updateMonitor(){
-
-        let qtdeclodidos = parseInt(eclodidos) + parseInt(qtdOvosEclodidos)
-        let qtdNeclodidos = parseInt(nEclodidos) + parseInt(qtdOvosNEclodidos)
-
-        await firebase.firestore().collection('tartarugas').doc(especie.split(' ')[0]).update({
-            'eclodidos': qtdeclodidos,
-            'naoEclodidos' : qtdNeclodidos,
-        });
-    }
-
-    function somaOvos()  {
-        var qtdnatimorto = natimorto === '' ? 0 : parseInt(natimorto)
-        var qtdeclodidos = qtdOvosEclodidos === '' ? 0 : parseInt(qtdOvosEclodidos)
-        var qtdnEclodidos = qtdOvosNEclodidos === '' ? 0 : parseInt(qtdOvosNEclodidos)
+    function somaOvos(){
+        let qtdnatimorto = natimorto === '' ? 0 : parseInt(natimorto)
+        let qtdeclodidos = qtdOvosEclodidos === '' ? 0 : parseInt(qtdOvosEclodidos)
+        let qtdnEclodidos = qtdOvosNEclodidos === '' ? 0 : parseInt(qtdOvosNEclodidos)
 
         setTotalOvos(qtdnatimorto + qtdeclodidos + qtdnEclodidos)
     }
