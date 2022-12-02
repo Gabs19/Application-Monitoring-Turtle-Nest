@@ -5,6 +5,7 @@ import useGeoLocation from '../../hooks/useGeoLocation'
 import registerFirestore from '../../utils/registerNestFirestore';
 import registerRealtime from '../../utils/registerNestRealtime';
 import updateMonitor from '../../utils/updateMonitor';
+import saveDate from '../../utils/dataEclosao';
 
 export default function NestLocations() {
 
@@ -73,6 +74,7 @@ export default function NestLocations() {
                 console.log(e)
             } finally {
                 
+                saveDate(dataDesova);
                 updateMonitor(eclodidos , qtdOvosEclodidos, nEclodidos, qtdOvosNEclodidos,especie);
 
                 setNomeMarcador('')
