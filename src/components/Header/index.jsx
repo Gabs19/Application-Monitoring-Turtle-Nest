@@ -22,7 +22,7 @@ export default function Header() {
         },
         {
             title: 'Sobre',
-            url: '#',
+            url: '/sobre',
             cName: 'nav-links',
         },
     ]
@@ -35,7 +35,7 @@ export default function Header() {
         },
         {
             title: 'Sobre',
-            url: '#',
+            url: '/sobre',
             cName: 'nav-links',
         },
         {

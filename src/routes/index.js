@@ -8,6 +8,7 @@ import NestLocations from '../pages/NestLocations';
 import Details from '../pages/Details';
 import DetailsNonRepro from '../pages/DetailsNonRepro';
 import Monitor from '../pages/TurtleMonitor';
+import Sobre from '../pages/sobre';
 
 const Routes = () => {
     return (
@@ -20,6 +21,7 @@ const Routes = () => {
                 <Route exact path="/detalhes-ninho/:id" component={Details} />
                 <Route exact path="/detalhes-non-reprodutivo/:id" component={DetailsNonRepro} />
                 <Route exact path="/tartarugometro" component={Monitor}/>
+                <Route exact path="/sobre" component={Sobre}/>
             </Switch>
     )
 }
