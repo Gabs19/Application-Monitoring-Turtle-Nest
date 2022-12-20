@@ -48,3 +48,7 @@ Para instalar todas as biblicotecas utilizadas. Em seguida execute o comando de 
 ```
 npm start
 ```
+
+## Acessar o Firebase
+
+> faça login na conta do google do projeto e clique nesse link [firebase](https://console.firebase.google.com/u/1/project/aplicativo-a91c7/database/aplicativo-a91c7-default-rtdb/data)
